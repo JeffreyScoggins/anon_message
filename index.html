@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    </head>
+<div class="container">
+    <label for="exampleFormControlInput1" class="form-label">Name</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Anonymous">
+
+    <label for="exampleFormControlTextarea1" class="form-label">Message</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="2000 characters max"></textarea>
+
+    <button type="button" class="btn btn-primary">Submit</button>
+    <tr></tr>
+</div>
+</html>
+
+<script>
+    // Making a GET request to the '/products/123' endpoint
+fetch('/products/', {
+  method: 'GET',
+})
+  // Handling the response by converting it to JSON
+  .then(response => response.json())
+  // Handling the data obtained from the response
+  .then(data => {
+    // Update UI with product details from the response
+  });
+
+</script>
