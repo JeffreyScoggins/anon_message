@@ -13,10 +13,11 @@ app.use('/api/posts/', postsRoutes);
 app.use(express.json());
 app.use(express.static('public'));
 
-app.get('/api/posts', (req, res) => { //handles get request from front end
+
+//handles get request from front end
+app.get('/api/posts', (req, res) => { 
     res.status(200).json();
 });
-
 app.post('/api/posts', (req, res) => {
     res.status(200).send(('Updated'))
 });

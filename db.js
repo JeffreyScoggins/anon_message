@@ -12,18 +12,4 @@ mysqlPool.query("SELECT 1")
     .then(() => console.log('Successful Database Connection'))
     .catch(err => console.log('Database Connection Failed. \n' + err));
 
-
-/*
-mysqlPool.query("SELECT * FROM POSTS")
-    .then(data => console.log(data))
-    .catch(err => console.log('Database Connection Failed. \n' + err))thui
-*/
-
-
-module.exports = mysqlPool
-
-
-/*
-INSERT INTO posts (name_string, message, post_timestamp)
-VALUES ('Jeff','First post!', current_timestamp());
-*/
+module.exports = mysqlPool;

@@ -5,25 +5,45 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <style>
+            .container {
+                margin-top: 50px;
+                width: 50%;
+            }
+            .card {
+                margin: auto;
+                margin-top: 20px;
+                width: 50%;
+            }
+            .card-body {
+                text-align: center;
+                border: 1px solid black;
+                background-color: aquamarine;
+            }
+            post-button {
+                padding-top: 50px;
+            }
+            body {
+                background-color: lightblue;
+            }    
+        </style>
     </head>
     <div class="container">
         <label for="exampleFormControlInput1" class="form-label">Name</label>
-        <input type="text" class="form-control" id="nameForm" placeholder="Anonymous">
+        <input type="text" class="form-control" id="nameForm" placeholder="Anonymous" maxlength="50">
 
         <label for="exampleFormControlTextarea1" class="form-label">Message</label>
-        <textarea class="form-control" id="messageForm" rows="3" placeholder="2000 characters max"></textarea>
+        <textarea class="form-control" id="messageForm" rows="3" placeholder="2000 characters max" maxlength="2000"></textarea>
 
-        <button type="button" id="postButton" class="btn btn-primary">Post</button>
+        <button type="button" id="postButton" class="btn btn-primary" onClick="window.location.reload();">Post</button>
     </div>
-    <div class="variable-container">
-    </div>
-
-
+    <div class="posts-container">
+      <!-- Posts will be appended here -->
+  </div>
 <script>
   const postButton = document.getElementById('postButton');
   const nameString = document.getElementById('nameForm');
   const messageString = document.getElementById('messageForm');
-  const array = [];
   const baseURL = 'http://localhost:3000/';
 
   postButton.addEventListener('click', postInfo);
@@ -36,31 +56,76 @@
           "Content-Type": 'application/json'
         }
     });
-    console.log(res);
-    const data = await res.json();
-    array = data;
+    const data = await req.json();
 
-    const variableContainer = document.querySelector('.variable-container');
-    variableContainer.innerHTML = ''; // Clear previous content
+    const container = document.querySelector('.posts-container');
+    container.innerHTML = ''; // Clear previous content
 
-    array.forEach(item => {
-      const idElement = document.createElement('p');
-      idElement.textContent = `ID: ${item.id}`;
-      variableContainer.appendChild(idElement);
+    data.slice().reverse().forEach(item => { // Reverse to show the latest post first
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.marginTop = '20px';
+
+      const cardBody = document.createElement('div');
+      cardBody.className = 'card-body';
+      card.appendChild(cardBody);
 
       const nameElement = document.createElement('p');
-      nameElement.textContent = `Name: ${item.name_string}`;
-      variableContainer.appendChild(nameElement);
+      nameElement.textContent = `${item.name_string}`; 
+      nameElement.style.fontSize = '30px';
+      cardBody.appendChild(nameElement);
 
       const messageElement = document.createElement('p');
-      messageElement.textContent = `Message: ${item.message}`;
-      variableContainer.appendChild(messageElement);
+      messageElement.textContent = `${item.message}`; 
+      messageElement.style.fontSize = '15px';
+      cardBody.appendChild(messageElement);
 
       const dateElement = document.createElement('p');
-      dateElement.textContent = `Date: ${item.post_timestamp}`;
-      variableContainer.appendChild(dateElement);
-    });
-  }
+      dateElement.textContent = `${item.post_timestamp}`;
+      dateElement.style.fontSize = '10px';
+      cardBody.appendChild(dateElement);
+
+      const editButton = document.createElement('button');
+      editButton.textContent = 'Edit';
+      editButton.className = 'btn btn-primary';
+      editButton.onclick = async function(){
+          const newName = prompt('Enter new name', item.name_string);
+          const newMessage = prompt('Enter new message', item.message);
+          const res = await fetch(baseURL + 'api/posts/' + item.id,
+          {
+              method: 'PUT',
+              headers:{
+                  "Content-Type": 'application/json'
+              },
+              body: JSON.stringify({
+                  name_string: newName,
+                  message: newMessage
+              })
+          });
+          console.log(res);
+          window.location.reload();
+      }
+
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.className = 'btn btn-primary';
+      deleteButton.onclick = async function(){
+          const res = await fetch(baseURL + 'api/posts/' + item.id,
+          {
+              method: 'DELETE',
+              headers:{
+                  "Content-Type": 'application/json'
+              }
+          });
+          console.log(res);
+          window.location.reload();
+      }
+      cardBody.appendChild(editButton);
+      cardBody.appendChild(deleteButton);
+
+      container.appendChild(card);
+      });
+    }
 
 
   async function postInfo(e){
