@@ -1,6 +1,7 @@
 const express = require ('express');
     app = express();
     bodyParser = require('body-parser');
+
 require('express-async-errors');
 
 const db = require ('./db'),
@@ -8,7 +9,20 @@ const db = require ('./db'),
 
 //middleware
 app.use(bodyParser.json());
-app.use('/api/posts', postsRoutes);
+app.use('/api/posts/', postsRoutes);
+app.use(express.json());
+app.use(express.static('public'));
+
+app.get('/api/posts', (req, res) => { //handles get request from front end
+    res.status(200).json();
+});
+
+app.post('/api/posts', (req, res) => {
+    res.status(200).send(('Updated'))
+});
+
+
+
 
 //error handeling
 app.use((err, req, res, next) => {
