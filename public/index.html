@@ -23,7 +23,7 @@
   const postButton = document.getElementById('postButton');
   const nameString = document.getElementById('nameForm');
   const messageString = document.getElementById('messageForm');
-  var array = [];
+  const array = [];
   const baseURL = 'http://localhost:3000/';
 
   postButton.addEventListener('click', postInfo);
@@ -43,7 +43,7 @@
     const variableContainer = document.querySelector('.variable-container');
     variableContainer.innerHTML = ''; // Clear previous content
 
-    array[0].forEach(item => {
+    array.forEach(item => {
       const idElement = document.createElement('p');
       idElement.textContent = `ID: ${item.id}`;
       variableContainer.appendChild(idElement);
