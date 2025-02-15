@@ -156,28 +156,28 @@
     var date = new Date(post_timestamp);
     var seconds = Math.floor((new Date() - date.getTime()) / 1000);
 
-    var time = seconds / 31536000; //milliseconds in a year
+    var time = seconds / 31536000; //seconds in a year
 
     if (time > 1) {
       return Math.floor(time) + " years";
     }
 
-    time = seconds / 2592000;
+    time = seconds / 2592000; //seconds in a month
     if (time > 1) {
       return Math.floor(time) + " months";
     }
 
-    time = seconds / 86400;
+    time = seconds / 86400; //seconds in a day
     if (time > 1) {
       return Math.floor(time) + " days";
     }
 
-    time = seconds / 3600;
+    time = seconds / 3600; //seconds in an hour
     if (time > 1) {
       return Math.floor(time) + " hours";
     }
 
-    time = seconds / 60;
+    time = seconds / 60; //seconds in a minute
     if (time > 1) {
       return Math.floor(time) + " minutes";
     }
