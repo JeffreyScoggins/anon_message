@@ -13,15 +13,17 @@
             .card {
                 margin: auto;
                 margin-top: 20px;
-                width: 30%;
+                width: 20%;
             }
             .card-body {
                 text-align: center;
                 background-color: aquamarine;
                 border-radius: 40px;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
             }
-            post-button {
-                padding-top: 50px;
+            .banner {
+                text-align: center;
+                font-size: 25px;
             }
             body {
                 background-color: lightblue;
@@ -29,13 +31,17 @@
         </style>
     </head>
     <div class="container">
+      <div class = "banner">
+        <h2>KSU Anonymous Messaging Board</h2>
+        <p>Post your message here</p>
+      </div>
         <label for="exampleFormControlInput1" class="form-label">Name</label>
         <input type="text" class="form-control" id="nameForm" placeholder="Anonymous" maxlength="50">
 
         <label for="exampleFormControlTextarea1" class="form-label">Message</label>
         <textarea class="form-control" id="messageForm" rows="3" placeholder="2000 characters max" maxlength="2000"></textarea>
 
-        <button type="button" id="postButton" class="btn btn-primary" onClick="window.location.reload();">Post</button>
+        <button type="button" id="postButton" class="btn btn-primary" onClick="window.location.reload();" style="float: right;">Post</button>
     </div>
     <div class="posts-container">
       <!-- Posts will be appended here -->
@@ -81,7 +87,8 @@
       cardBody.appendChild(messageElement);
 
       const dateElement = document.createElement('p');
-      dateElement.textContent = `${item.post_timestamp}`;
+      const dateSince = timeSince(item.post_timestamp);
+      dateElement.textContent = `${dateSince} ago`;
       dateElement.style.fontSize = '10px';
       cardBody.appendChild(dateElement);
 
@@ -124,7 +131,6 @@
       }
       cardBody.appendChild(editButton);
       cardBody.appendChild(deleteButton);
-
       container.appendChild(card);
       });
     }
@@ -144,8 +150,40 @@
           message: messageString.value
         })
     })
-    console.log(res);
   }
+
+  function timeSince(post_timestamp) {
+    var date = new Date(post_timestamp);
+    var seconds = Math.floor((new Date() - date.getTime()) / 1000);
+
+    var time = seconds / 31536000; //milliseconds in a year
+
+    if (time > 1) {
+      return Math.floor(time) + " years";
+    }
+
+    time = seconds / 2592000;
+    if (time > 1) {
+      return Math.floor(time) + " months";
+    }
+
+    time = seconds / 86400;
+    if (time > 1) {
+      return Math.floor(time) + " days";
+    }
+
+    time = seconds / 3600;
+    if (time > 1) {
+      return Math.floor(time) + " hours";
+    }
+
+    time = seconds / 60;
+    if (time > 1) {
+      return Math.floor(time) + " minutes";
+    }
+
+    return Math.floor(seconds) + " seconds";
+    }
 </script>
 </html>
 
