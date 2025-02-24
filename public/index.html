@@ -3,23 +3,62 @@
      <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
         <style>
-            .container {
-                margin-top: 50px;
-                width: 30%;
+            .text-input-container {
+              background-color: #4c4848;
+              color: white;
+              position: fixed;
+              font-size: 12px;
+              margin-left: 15px;
+              border-radius: 40px;
+              padding: 35px;
+              padding-bottom: 60px;
+              width: 30%;
+              box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            }
+            #card-buttons{
+              border-radius: 30px;
+              margin-left: 10px; 
+            }
+            #postButton {
+              margin-top: 30px;
+              border-radius: 30px;
+              float: right;
+              height: 40px;
+              width: 100px;
+            }
+            .title {
+              text-align: center;
+              font-size: 30px;
+              font-weight: 600;
+              font-family: 'Sixtyfour Convergence', cursive;
             }
             .card {
-                margin: auto;
-                margin-top: 20px;
-                width: 20%;
+              margin-top: 10px;
+              width: 30%;
+              margin-left:35%;
+
+            }
+            .form-control {
+              margin-bottom: 10px;
+              border-radius: 30px;
+            }
+            .card-name{
+                font-size: 35px;
+                font-weight: 600;
             }
             .card-body {
+                position: relative;
                 text-align: center;
-                background-color: aquamarine;
+                background-color: #d5d5cb;
+                padding: 15px;
                 border-radius: 40px;
                 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                margin-bottom: 30px;
             }
             .banner {
                 text-align: center;
@@ -30,18 +69,18 @@
             }    
         </style>
     </head>
-    <div class="container">
+    <div class="text-input-container">
       <div class = "banner">
-        <h2>KSU Anonymous Messaging Board</h2>
+        <p class = 'title'>KSU Anonymous Messaging Board</p>
         <p>Post your message here</p>
       </div>
         <label for="exampleFormControlInput1" class="form-label">Name</label>
         <input type="text" class="form-control" id="nameForm" placeholder="Anonymous" maxlength="50">
 
         <label for="exampleFormControlTextarea1" class="form-label">Message</label>
-        <textarea class="form-control" id="messageForm" rows="3" placeholder="2000 characters max" maxlength="2000"></textarea>
+        <textarea class="form-control" id="messageForm" rows="2" placeholder="2000 characters max" maxlength="2000"></textarea>
 
-        <button type="button" id="postButton" class="btn btn-primary" onClick="window.location.reload();" style="float: right;">Post</button>
+        <button type="button" id="postButton" class="btn btn-primary" onClick="window.location.reload();">Post</button>
     </div>
     <div class="posts-container">
       <!-- Posts will be appended here -->
@@ -54,7 +93,7 @@
 
   postButton.addEventListener('click', postInfo);
 
-  window.onload = async function getInfo(){
+  window.onload = async function getInfo(){//Function to get message
     const req = await fetch(baseURL + 'api/posts',
     {
         method: 'GET',
@@ -70,34 +109,33 @@
     data.slice().reverse().forEach(item => { // Reverse to show the latest post first
       const card = document.createElement('div');
       card.className = 'card';
-      card.style.marginTop = '20px';
 
-      const cardBody = document.createElement('div');
+      const cardBody = document.createElement('div'); // Create card body
       cardBody.className = 'card-body';
       card.appendChild(cardBody);
 
-      const nameElement = document.createElement('p');
+      const nameElement = document.createElement('p'); // Name element
       nameElement.textContent = `${item.name_string}`; 
-      nameElement.style.fontSize = '30px';
+      nameElement.className = 'card-name';
       cardBody.appendChild(nameElement);
 
-      const messageElement = document.createElement('p');
+      const messageElement = document.createElement('p'); // Message element
       messageElement.textContent = `${item.message}`; 
       messageElement.style.fontSize = '20px';
       cardBody.appendChild(messageElement);
 
-      const dateElement = document.createElement('p');
+      const dateElement = document.createElement('p'); // Date element
       const dateSince = timeSince(item.post_timestamp);
       dateElement.textContent = `${dateSince} ago`;
-      dateElement.style.fontSize = '10px';
+      dateElement.style.fontSize = '15px';
       cardBody.appendChild(dateElement);
 
-      const editButton = document.createElement('button');
+      const editButton = document.createElement('button'); // Edit button
       editButton.textContent = 'Edit';
       editButton.className = 'btn btn-primary';
-      editButton.style.marginRight = '10px';
-      editButton.style.marginBottom = '10px';
-      editButton.onclick = async function(){
+      editButton.id = 'card-buttons';
+
+      editButton.onclick = async function(){ // Edit function
           const newName = prompt('Enter new name', item.name_string);
           const newMessage = prompt('Enter new message', item.message);
           const res = await fetch(baseURL + 'api/posts/' + item.id,
@@ -117,8 +155,8 @@
       const deleteButton = document.createElement('button');
       deleteButton.textContent = 'Delete';
       deleteButton.className = 'btn btn-primary';
-      deleteButton.style.marginBottom = '10px';
-      deleteButton.onclick = async function(){
+      deleteButton.id = 'card-buttons';
+      deleteButton.onclick = async function(){ // Delete function
           const res = await fetch(baseURL + 'api/posts/' + item.id,
           {
               method: 'DELETE',
@@ -136,7 +174,7 @@
     }
 
 
-  async function postInfo(e){
+  async function postInfo(e){ // Function to post message
     e.preventDefault();//prevents refresh
     if (nameString.value == '' || messageString.value == ''){return}//prevent empty strings
     const res = await fetch(baseURL + 'api/posts',
@@ -152,7 +190,7 @@
     })
   }
 
-  function timeSince(post_timestamp) {
+  function timeSince(post_timestamp) { // Function to calculate time since post
     var date = new Date(post_timestamp);
     var seconds = Math.floor((new Date() - date.getTime()) / 1000);
 
