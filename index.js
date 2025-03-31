@@ -33,5 +33,5 @@ app.use((err, req, res, next) => {
 
 
 //Starts application on localhost port 3000
-app.listen(3000,
+app.listen(8080,
     () => console.log('Server Started on port 3000'));
