@@ -2,10 +2,10 @@ const mysql = require ('mysql2/promise');
 require ('dotenv').config()
 
 const mysqlPool = mysql.createPool({ //connects to the database
-    host: $db_host,
-    user: $db_user,
-    password: $db_password,
-    database: $db_name
+    host: 'anondb.mysql.database.azure.com',
+    user: 'webmster',
+    password: '!mynamejeff444',
+    database: 'posts_db'
 
 });
 
