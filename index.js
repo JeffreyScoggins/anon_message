@@ -1,5 +1,5 @@
 const express = require ('express');
-const cors = require('cors');
+    cors = require('cors');
     app = express();
     bodyParser = require('body-parser');
 
@@ -10,9 +10,7 @@ const db = require ('./db'),
 
 //middleware
 app.use(cors({
-    origin: *,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],     // Allow specific HTTP methods
-    credentials: false             // Allow credentials
+    origin: *
 }));
 app.use(bodyParser.json());
 app.use('/api/posts/', postsRoutes);
