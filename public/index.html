@@ -177,7 +177,7 @@
   async function postInfo(e){ // Function to post message
     e.preventDefault();//prevents refresh
     if (nameString.value == '' || messageString.value == ''){return}//prevent empty strings
-    const res = await fetch(baseURL + 'api/posts',
+    const res = await fetch(baseURL + 'api/posts/',
     {
         method: 'POST',
         headers:{
