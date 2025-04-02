@@ -80,7 +80,7 @@
         <label for="exampleFormControlTextarea1" class="form-label">Message</label>
         <textarea class="form-control" id="messageForm" rows="2" placeholder="2000 characters max" maxlength="2000"></textarea>
 
-        <button type="button" id="postButton" class="btn btn-primary" onClick="window.location.reload();">Post</button>
+        <button type="button" id="postButton" class="btn btn-primary">Post</button>
     </div>
     <div class="posts-container">
       <!-- Posts will be appended here -->
@@ -189,9 +189,12 @@
           message: messageString.value
         })
     })
-       if (!res.ok) {
-       console.error("POST failed:", res.status, res.statusText);
-     }
+    if (res.ok) {
+    // Reload only after the POST request is successful
+    window.location.reload();
+    } else {
+    console.error("POST failed:", res.status, res.statusText);
+  }
   }
 
   function timeSince(post_timestamp) { // Function to calculate time since post
