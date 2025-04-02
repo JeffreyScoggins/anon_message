@@ -9,7 +9,11 @@ const db = require ('./db'),
     postsRoutes = require('./controllers/post.controller');
 
 //middleware
-app.use(cors());
+app.use(cors({
+    origin: *,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],     // Allow specific HTTP methods
+    credentials: false             // Allow credentials
+}));
 app.use(bodyParser.json());
 app.use('/api/posts/', postsRoutes);
 app.use(express.json());
