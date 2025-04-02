@@ -89,12 +89,12 @@
   const postButton = document.getElementById('postButton');
   const nameString = document.getElementById('nameForm');
   const messageString = document.getElementById('messageForm');
-  const baseURL = 'jeffscogginsassignment2-ctfxhucgbva5anc5.centralus-01.azurewebsites.net';
+  const baseURL = 'https://jeffscogginsassignment2-ctfxhucgbva5anc5.centralus-01.azurewebsites.net/';
 
   postButton.addEventListener('click', postInfo);
 
   window.onload = async function getInfo(){//Function to get messages
-    const req = await fetch('api/posts',
+    const req = await fetch(baseURL + 'api/posts',
     {
         method: 'GET',
         headers:{
