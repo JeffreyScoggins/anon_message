@@ -24,6 +24,6 @@ module.exports.deletePost = async(id) => {
 
 // This function is used to add or edit a post
 module.exports.addOrEditPost = async(obj, id = 0) => {
-    const [[[{affectedRows}]]] = await db.query('CALL add_or_edit(?,?,?,?)',[id, obj.name_string, obj.message, obj.post_timestamp]);
+    const [{affectedRows}] = await db.query('CALL add_or_edit(?,?,?,?)',[id, obj.name_string, obj.message, obj.post_timestamp]);
     return affectedRows;
 }
