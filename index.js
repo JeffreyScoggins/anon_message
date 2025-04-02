@@ -9,9 +9,7 @@ const db = require ('./db'),
     postsRoutes = require('./controllers/post.controller');
 
 //middleware
-app.use(cors({
-    origin: *
-}));
+app.use(cors());
 app.use(bodyParser.json());
 app.use('/api/posts/', postsRoutes);
 app.use(express.json());
