@@ -1,4 +1,5 @@
 const express = require ('express');
+const cors = require('cors');
     app = express();
     bodyParser = require('body-parser');
 
@@ -8,6 +9,7 @@ const db = require ('./db'),
     postsRoutes = require('./controllers/post.controller');
 
 //middleware
+app.use(cors());
 app.use(bodyParser.json());
 app.use('/api/posts/', postsRoutes);
 app.use(express.json());
